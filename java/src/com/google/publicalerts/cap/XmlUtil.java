@@ -18,8 +18,6 @@ package com.google.publicalerts.cap;
 
 import com.google.common.collect.ImmutableList;
 
-import com.sun.org.apache.xerces.internal.util.SecurityManager;
-
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -141,20 +139,9 @@ public class XmlUtil {
     try {
       xmlReader.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
     } catch (SAXNotRecognizedException e) {
-      // The native SAX2 parser doesn't support FEATURE_SECURE_PROCESSING. When you set
-      // FEATURE_SECURE_PROCESSING with the JAXP classes the underlying SAXParserImpl sets the
-      // http://apache.org/xml/properties/security-manager property. We replicate this
-      // behavior for the native SAX2 parser returned from XMLReaderFactory
-      try {
-        xmlReader.setProperty("http://apache.org/xml/properties/security-manager",
-            getSecurityManager(xmlReader));
-      } catch (SAXException e2) {
-        // If we can't set the security manager property then we can't guarantee the
-        // safety of this parser.
-        throw new SAXException(
-            "Wrapped XMLReader doesn't support the required security features: "
-            + e2.getMessage(), e2);
-      }
+      throw new SAXException(
+          "Wrapped XMLReader doesn't support the required security features: "
+          + e.getMessage(), e);
     } catch (SAXNotSupportedException e) {
       throw new SAXException(
           "Wrapped XMLReader doesn't support the required security features: "
@@ -162,26 +149,6 @@ public class XmlUtil {
     }
 
     return xmlReader;
-  }
-
-  /**
-   * Obtain a valid security manager for a given XML parser/reader. The library supports the
-   * built-in JDK Xerces parsers/readers.
-   *
-   * @param parser the object that will be used to determine the appropriate security manager for
-   *        the object's class
-   */
-  private static Object getSecurityManager(Object parser) {
-    String parserPackageName = parser.getClass().getPackage().getName();
-    if (parserPackageName.startsWith("com.sun.org.apache.xerces")) {
-      // Avoid using reflection for the built-in SecurityManager so that we don't have to attempt
-      // to run as a privileged operation that could be subject to java.lang.SecurityManager
-      // restrictions.
-      return new SecurityManager();
-    } else {
-      throw new IllegalArgumentException(
-          "No valid SecurityManager for " + parser.getClass().getName() + ".");
-    }
   }
 
   /**

@@ -576,7 +576,7 @@ public class CapXmlParserTest extends TestCase {
     CapXmlParser parser = new CapXmlParser(true);
     assertReasons(parser, alertStr,
         new Reason("/alert[1]/identifier[1]", ReasonType.INVALID_IDENTIFIER),
-        new Reason("/alert[1]/sender[2]", ReasonType.DUPLICATE_ELEMENT),
+        new Reason("/alert[1]/sender[1]", ReasonType.INVALID_SEQUENCE),
         new Reason("/alert[1]/sent[1]", ReasonType.INVALID_DATE),
         new Reason("/alert[1]/scope[1]", ReasonType.INVALID_ENUM_VALUE),
         new Reason("/alert[1]/references[1]", ReasonType.INVALID_REFERENCES),

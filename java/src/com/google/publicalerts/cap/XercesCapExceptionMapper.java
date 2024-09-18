@@ -23,6 +23,8 @@ import com.google.protobuf.Descriptors.Descriptor;
 import com.google.protobuf.Descriptors.FieldDescriptor;
 import com.google.publicalerts.cap.CapException.ReasonType;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -53,14 +55,16 @@ public class XercesCapExceptionMapper {
       ImmutableSet.of("sent", "effective", "onset", "expires");
 
   static String stripTagNamespace(String tag) {
-    int index = tag.indexOf(':');
+    String tag1 = StringUtils.remove(tag, "}");
+
+    int index = tag1.lastIndexOf(':');
     
     if (index < 0) {
       // The tag does not have a namespace specified
-      return tag;
+      return tag1;
     }
     
-    return tag.substring(index + 1, tag.length());
+    return tag1.substring(index + 1, tag1.length());
   }
   
   /**

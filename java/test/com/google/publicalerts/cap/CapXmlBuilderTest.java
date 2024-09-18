@@ -26,9 +26,9 @@ import junit.framework.TestCase;
 public class CapXmlBuilderTest extends TestCase {
 
   private static final String XML_DECLARATION =
-      "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>";
+      "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 
-  private CapXmlBuilder builder = new CapXmlBuilder();
+  private CapXmlBuilder builder = new CapXmlBuilder(null);
 
   public CapXmlBuilderTest(String s) {
     super(s);
@@ -52,23 +52,23 @@ public class CapXmlBuilderTest extends TestCase {
         .setIncidents(Group.newBuilder().addValue("incident1").addValue("incident2").build())
         .buildPartial();
 
-    String alertStr = XML_DECLARATION + "\n"
-        + "<alert xmlns=\"" + CapValidator.CAP_LATEST_XMLNS + "\">\n"
-        + "  <identifier>43b080713727</identifier>\n"
-        + "  <sender>hsas@dhs.gov</sender>\n"
-        + "  <sent>2003-04-02T14:39:01-05:00</sent>\n"
-        + "  <status>Actual</status>\n"
-        + "  <msgType>Alert</msgType>\n"
-        + "  <source>a source</source>\n"
-        + "  <scope>Public</scope>\n"
-        + "  <restriction>a restriction</restriction>\n"
-        + "  <addresses>\"address 1\" address2</addresses>\n"
-        + "  <code>abcde</code>\n"
-        + "  <code>fghij</code>\n"
-        + "  <note>a note</note>\n"
-        + "  <references>reference1 \"reference 2\"</references>\n"
-        + "  <incidents>incident1 incident2</incidents>\n"
-        + "</alert>\n";
+    String alertStr = XML_DECLARATION
+        + "<alert xmlns=\"" + CapValidator.CAP_LATEST_XMLNS + "\">"
+        + "<identifier>43b080713727</identifier>"
+        + "<sender>hsas@dhs.gov</sender>"
+        + "<sent>2003-04-02T14:39:01-05:00</sent>"
+        + "<status>Actual</status>"
+        + "<msgType>Alert</msgType>"
+        + "<source>a source</source>"
+        + "<scope>Public</scope>"
+        + "<restriction>a restriction</restriction>"
+        + "<addresses>\"address 1\" address2</addresses>"
+        + "<code>abcde</code>"
+        + "<code>fghij</code>"
+        + "<note>a note</note>"
+        + "<references>reference1 \"reference 2\"</references>"
+        + "<incidents>incident1 incident2</incidents>"
+        + "</alert>";
 
     assertEquals(alertStr, builder.toXml(alert));
   }
@@ -109,45 +109,45 @@ public class CapXmlBuilderTest extends TestCase {
         .addInfo(info2)
         .buildPartial();
 
-    String alertStr = XML_DECLARATION + "\n"
-        + "<alert xmlns=\"" + CapValidator.CAP_LATEST_XMLNS + "\">\n"
-        + "  <info>\n"
-        + "    <category>Security</category>\n"
-        + "    <category>Safety</category>\n"
-        + "    <event>Homeland Security Advisory System Update</event>\n"
-        + "    <urgency>Unknown</urgency>\n"
-        + "    <severity>Unknown</severity>\n"
-        + "    <certainty>Unknown</certainty>\n"
-        + "    <senderName>Department of Homeland Security</senderName>\n"
-        + "    <headline>Homeland Security Sets Code ORANGE</headline>\n"
-        + "    <description>DHS has set the threat level to ORANGE.</description>\n"
-        + "    <instruction>Take Protective Measures.</instruction>\n"
-        + "    <web>http://www.dhs.gov/dhspublic/display?theme=29</web>\n"
-        + "    <parameter>\n"
-        + "      <valueName>HSAS</valueName>\n"
-        + "      <value>ORANGE</value>\n"
-        + "    </parameter>\n"
-        + "    <parameter>\n"
-        + "      <valueName>p2</valueName>\n"
-        + "      <value>v2</value>\n"
-        + "    </parameter>\n"
-        + "  </info>\n"
-        + "  <info>\n"
-        + "    <audience>an audience</audience>\n"
-        + "    <eventCode>\n"
-        + "      <valueName>EC</valueName>\n"
-        + "      <value>v1</value>\n"
-        + "    </eventCode>\n"
-        + "    <eventCode>\n"
-        + "      <valueName>EC2</valueName>\n"
-        + "      <value>v2</value>\n"
-        + "    </eventCode>\n"
-        + "    <effective>2003-04-02T14:39:01-05:00</effective>\n"
-        + "    <onset>2003-04-02T15:39:01+05:00</onset>\n"
-        + "    <expires>2003-04-02T16:39:01-00:00</expires>\n"
-        + "    <contact>a contact</contact>\n"
-        + "  </info>\n"
-        + "</alert>\n";
+    String alertStr = XML_DECLARATION
+        + "<alert xmlns=\"" + CapValidator.CAP_LATEST_XMLNS + "\">"
+        + "<info>"
+        + "<category>Security</category>"
+        + "<category>Safety</category>"
+        + "<event>Homeland Security Advisory System Update</event>"
+        + "<urgency>Unknown</urgency>"
+        + "<severity>Unknown</severity>"
+        + "<certainty>Unknown</certainty>"
+        + "<senderName>Department of Homeland Security</senderName>"
+        + "<headline>Homeland Security Sets Code ORANGE</headline>"
+        + "<description>DHS has set the threat level to ORANGE.</description>"
+        + "<instruction>Take Protective Measures.</instruction>"
+        + "<web>http://www.dhs.gov/dhspublic/display?theme=29</web>"
+        + "<parameter>"
+        + "<valueName>HSAS</valueName>"
+        + "<value>ORANGE</value>"
+        + "</parameter>"
+        + "<parameter>"
+        + "<valueName>p2</valueName>"
+        + "<value>v2</value>"
+        + "</parameter>"
+        + "</info>"
+        + "<info>"
+        + "<audience>an audience</audience>"
+        + "<eventCode>"
+        + "<valueName>EC</valueName>"
+        + "<value>v1</value>"
+        + "</eventCode>"
+        + "<eventCode>"
+        + "<valueName>EC2</valueName>"
+        + "<value>v2</value>"
+        + "</eventCode>"
+        + "<effective>2003-04-02T14:39:01-05:00</effective>"
+        + "<onset>2003-04-02T15:39:01+05:00</onset>"
+        + "<expires>2003-04-02T16:39:01-00:00</expires>"
+        + "<contact>a contact</contact>"
+        + "</info>"
+        + "</alert>";
 
     assertEquals(alertStr, builder.toXml(alert));
   }
@@ -190,30 +190,30 @@ public class CapXmlBuilderTest extends TestCase {
         .addInfo(info)
         .buildPartial();
 
-    String alertStr = XML_DECLARATION + "\n"
-        + "<alert xmlns=\"" + CapValidator.CAP_LATEST_XMLNS + "\">\n"
-        + "  <info>\n"
-        + "    <area>\n"
-        + "      <polygon>1.0,2.0 3.0,4.0 5.0,6.0 1.0,2.0</polygon>\n"
-        + "      <polygon>11.0,12.0 13.0,14.0 15.0,16.0 11.0,12.0</polygon>\n"
-        + "      <circle>1.0,2.0 3.0</circle>\n"
-        + "      <circle>4.0,5.0 6.0</circle>\n"
-        + "      <geocode>\n"
-        + "        <valueName>G1</valueName>\n"
-        + "        <value>v1</value>\n"
-        + "      </geocode>\n"
-        + "      <geocode>\n"
-        + "        <valueName>G2</valueName>\n"
-        + "        <value>v2</value>\n"
-        + "      </geocode>\n"
-        + "      <altitude>5.5</altitude>\n"
-        + "      <ceiling>6.5</ceiling>\n"
-        + "    </area>\n"
-        + "    <area>\n"
-        + "      <areaDesc>U.S. nationwide</areaDesc>\n"
-        + "    </area>\n"
-        + "  </info>\n"
-        + "</alert>\n";
+    String alertStr = XML_DECLARATION
+        + "<alert xmlns=\"" + CapValidator.CAP_LATEST_XMLNS + "\">"
+        + "<info>"
+        + "<area>"
+        + "<polygon>1.0,2.0 3.0,4.0 5.0,6.0 1.0,2.0</polygon>"
+        + "<polygon>11.0,12.0 13.0,14.0 15.0,16.0 11.0,12.0</polygon>"
+        + "<circle>1.0,2.0 3.0</circle>"
+        + "<circle>4.0,5.0 6.0</circle>"
+        + "<geocode>"
+        + "<valueName>G1</valueName>"
+        + "<value>v1</value>"
+        + "</geocode>"
+        + "<geocode>"
+        + "<valueName>G2</valueName>"
+        + "<value>v2</value>"
+        + "</geocode>"
+        + "<altitude>5.5</altitude>"
+        + "<ceiling>6.5</ceiling>"
+        + "</area>"
+        + "<area>"
+        + "<areaDesc>U.S. nationwide</areaDesc>"
+        + "</area>"
+        + "</info>"
+        + "</alert>";
 
     assertEquals(alertStr, builder.toXml(alert));
   }
@@ -238,21 +238,21 @@ public class CapXmlBuilderTest extends TestCase {
         .addInfo(info)
         .buildPartial();
 
-    String alertStr = XML_DECLARATION + "\n"
-        + "<alert xmlns=\"" + CapValidator.CAP_LATEST_XMLNS + "\">\n"
-        + "  <info>\n"
-        + "    <resource>\n"
-        + "      <mimeType>image/gif</mimeType>\n"
-        + "      <size>123</size>\n"
-        + "      <derefUri>a deref uri</derefUri>\n"
-        + "      <digest>a digest</digest>\n"
-        + "    </resource>\n"
-        + "    <resource>\n"
-        + "      <resourceDesc>Image file (GIF)</resourceDesc>\n"
-        + "      <uri>http://www.dhs.gov/dhspublic/getAdvisoryImage</uri>\n"
-        + "    </resource>\n"
-        + "  </info>\n"
-        + "</alert>\n";
+    String alertStr = XML_DECLARATION
+        + "<alert xmlns=\"" + CapValidator.CAP_LATEST_XMLNS + "\">"
+        + "<info>"
+        + "<resource>"
+        + "<mimeType>image/gif</mimeType>"
+        + "<size>123</size>"
+        + "<derefUri>a deref uri</derefUri>"
+        + "<digest>a digest</digest>"
+        + "</resource>"
+        + "<resource>"
+        + "<resourceDesc>Image file (GIF)</resourceDesc>"
+        + "<uri>http://www.dhs.gov/dhspublic/getAdvisoryImage</uri>"
+        + "</resource>"
+        + "</info>"
+        + "</alert>";
 
     assertEquals(alertStr, builder.toXml(alert));
   }
@@ -277,18 +277,18 @@ public class CapXmlBuilderTest extends TestCase {
         .addInfo(info)
         .buildPartial();
 
-    String alertStr = XML_DECLARATION + "\n"
-        + "<alert xmlns=\"" + CapValidator.CAP10_XMLNS + "\">\n"
-        + "  <password>obsolete</password>\n"
-        + "  <info>\n"
-        + "    <certainty>Very Likely</certainty>\n"
-        + "    <eventCode>EC=v1</eventCode>\n"
-        + "    <parameter>HSAS=ORANGE</parameter>\n"
-        + "    <area>\n"
-        + "      <geocode>G1=v1</geocode>\n"
-        + "    </area>\n"
-        + "  </info>\n"
-        + "</alert>\n";
+    String alertStr = XML_DECLARATION
+        + "<alert xmlns=\"" + CapValidator.CAP10_XMLNS + "\">"
+        + "<password>obsolete</password>"
+        + "<info>"
+        + "<certainty>Very Likely</certainty>"
+        + "<eventCode>EC=v1</eventCode>"
+        + "<parameter>HSAS=ORANGE</parameter>"
+        + "<area>"
+        + "<geocode>G1=v1</geocode>"
+        + "</area>"
+        + "</info>"
+        + "</alert>";
 
     assertEquals(alertStr, builder.toXml(alert));
   }
@@ -308,18 +308,18 @@ public class CapXmlBuilderTest extends TestCase {
         .addInfo(info)
         .buildPartial();
 
-    String alertStr = XML_DECLARATION + "\n"
-        + "<alert xmlns=\"" + CapValidator.CAP11_XMLNS + "\">\n"
-        + "  <status>Draft</status>\n"
-        + "  <scope>Public</scope>\n"
-        + "  <info>\n"
-        + "    <category>CBRNE</category>\n"
-        + "    <responseType>Evacuate</responseType>\n"
-        + "    <resource>\n"
-        + "      <derefUri>deref uri</derefUri>\n"
-        + "    </resource>\n"
-        + "  </info>\n"
-        + "</alert>\n";
+    String alertStr = XML_DECLARATION
+        + "<alert xmlns=\"" + CapValidator.CAP11_XMLNS + "\">"
+        + "<status>Draft</status>"
+        + "<scope>Public</scope>"
+        + "<info>"
+        + "<category>CBRNE</category>"
+        + "<responseType>Evacuate</responseType>"
+        + "<resource>"
+        + "<derefUri>deref uri</derefUri>"
+        + "</resource>"
+        + "</info>"
+        + "</alert>";
 
     assertEquals(alertStr, builder.toXml(alert));
   }
@@ -333,13 +333,13 @@ public class CapXmlBuilderTest extends TestCase {
         .addInfo(info)
         .buildPartial();
 
-    String alertStr = XML_DECLARATION + "\n"
-        + "<alert xmlns=\"" + CapValidator.CAP12_XMLNS + "\">\n"
-        + "  <info>\n"
-        + "    <responseType>Avoid</responseType>\n"
-        + "    <responseType>AllClear</responseType>\n"
-        + "  </info>\n"
-        + "</alert>\n";
+    String alertStr = XML_DECLARATION
+        + "<alert xmlns=\"" + CapValidator.CAP12_XMLNS + "\">"
+        + "<info>"
+        + "<responseType>Avoid</responseType>"
+        + "<responseType>AllClear</responseType>"
+        + "</info>"
+        + "</alert>";
 
     assertEquals(alertStr, builder.toXml(alert));
   }
@@ -362,13 +362,13 @@ public class CapXmlBuilderTest extends TestCase {
 
   public void testEscaping() {
     Alert alert = Alert.newBuilder().setXmlns(CapValidator.CAP12_XMLNS)
-        .setNote("&<>\u0000")
+        .setNote("&<>\u0005")
         .buildPartial();
 
-    String alertStr = XML_DECLARATION + "\n"
-        + "<alert xmlns=\"" + CapValidator.CAP12_XMLNS + "\">\n"
-        + "  <note>&amp;&lt;&gt;&#0;</note>\n"
-        + "</alert>\n";
+    String alertStr = XML_DECLARATION
+        + "<alert xmlns=\"" + CapValidator.CAP12_XMLNS + "\">"
+        + "<note>&amp;&lt;&gt;&#x5;</note>"
+        + "</alert>";
 
     assertEquals(alertStr, builder.toXml(alert));
   }

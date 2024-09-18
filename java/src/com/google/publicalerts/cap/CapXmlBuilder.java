@@ -106,8 +106,14 @@ public class CapXmlBuilder {
    * @param document the document used to create the nodes for the element tree
    */
   public Element toXmlDocument(AlertOrBuilder alert, Document document) {
-    Element alertElement = document.createElement("alert");
-    createDocument(document, alertElement, alert.getXmlns(), alert);
+    String xmlns = null;
+
+    if (alert.hasXmlns()) {
+      xmlns = alert.getXmlns();
+    }
+
+    Element alertElement = document.createElementNS(xmlns, "alert");
+    createDocument(document, alertElement, xmlns, alert);
     return alertElement;
   }
 
@@ -122,8 +128,7 @@ public class CapXmlBuilder {
       element.setTextContent(circleToString((CircleOrBuilder) message));
     } else {
       for (FieldDescriptor fd : message.getAllFields().keySet()) {
-        if (message instanceof AlertOrBuilder && "xmlns".equals(fd.getName())) {
-          element.setAttribute("xmlns", ((AlertOrBuilder) message).getXmlns());
+        if ("xmlns".equals(fd.getName())) {
           continue;
         }
         if (fd.isRepeated()) {
@@ -148,29 +153,29 @@ public class CapXmlBuilder {
         if (CapValidator.CAP10_XMLNS.equals(namespace)
             && value instanceof ValuePairOrBuilder) {
           String textValue = cap10ValuePairToString((ValuePairOrBuilder) value);
-          appendElement(document, element, name, textValue);
+          appendElement(document, element, namespace, name, textValue);
         } else {
-          Element child = document.createElement(name);
+          Element child = document.createElementNS(namespace, name);
           element.appendChild(child);
           createDocument(document, child, namespace, (MessageOrBuilder) value);
         }
         break;
       case ENUM:
         EnumValueDescriptor evd = (EnumValueDescriptor) value;
-        appendElement(document, element, name, CapUtil.getEnumValue(evd));
+        appendElement(document, element, namespace, name, CapUtil.getEnumValue(evd));
         break;
       case BYTES:
         String byteVal = ((ByteString) value).toStringUtf8();
-        appendElement(document, element, name, byteVal);
+        appendElement(document, element, namespace, name, byteVal);
         break;
       default:
-        appendElement(document, element, name, String.valueOf(value));
+        appendElement(document, element, namespace, name, String.valueOf(value));
     }
   }
 
   private void appendElement(
-      Document document, Element parent, String name, String value) {
-    Element child = document.createElement(name);
+      Document document, Element parent, String namespace, String name, String value) {
+    Element child = document.createElementNS(namespace, name);
     child.setTextContent(value);
     parent.appendChild(child);
   }

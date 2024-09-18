@@ -18,7 +18,7 @@ import com.sun.syndication.feed.synd.SyndFeed;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.DatatypeConverter;
+import jakarta.xml.bind.DatatypeConverter;
 
 /**
  * Converter plugin for EDXL-DE 1.0.

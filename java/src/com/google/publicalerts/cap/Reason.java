@@ -184,7 +184,7 @@ public class Reason {
 
   @Override
   public String toString() {
-    return "[" + xPath + "] " + getMessage();
+    return type + " [" + xPath + "] " + getMessage();
   }
 
   @Override

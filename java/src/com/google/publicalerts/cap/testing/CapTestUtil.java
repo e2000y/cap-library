@@ -141,7 +141,6 @@ public class CapTestUtil {
       }
     }
     
-    
     for (Entry<Reason.Type, String> expectedEntry
         : expectedReasonTypeToXPath.entries()) {
       msg += " Expected reason with type: " + expectedEntry.getKey()
