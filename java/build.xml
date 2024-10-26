@@ -108,13 +108,16 @@
   <target name="javadoc">
     <mkdir dir="${docs}"/>
     <javadoc packagenames="com.google.publicalerts.*"
-	     sourcepath="src"
-	     defaultexcludes="yes"
 	     destdir="${docs}"
 	     author="false"
 	     version="true"
 	     use="true"
-	     windowtitle="CAP Library">
+         windowtitle="CAP Library">
+      <classpath refid="src_classpath"/>
+      <fileset dir="src" >
+        <include name="**/*.java"/>
+        <exclude name="com/google/publicalerts/cap/testing/**"/>
+      </fileset>
       <doctitle><![CDATA[<h1>Common Alerting Protocol Library</h1>]]></doctitle>
       <link href="http://download.oracle.com/javase/6/docs/api/"/>
     </javadoc>
